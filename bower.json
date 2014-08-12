@@ -1,0 +1,31 @@
+{
+  "name": "xcom",
+  "version": "0.0.0",
+  "authors": [
+    "elbahek <ivan.abdulin@gmail.com>"
+  ],
+  "moduleType": [
+    "node"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.2.17",
+    "bootstrap": "~3.1.1",
+    "angular-route": "~1.2.18",
+    "angular-bootstrap": "~0.11.0",
+    "angular-translate": "~2.2.0",
+    "angular-translate-storage-local": "~2.2.0",
+    "angular-cookies": "~1.2.18",
+    "angular-translate-loader-static-files": "~2.2.0",
+    "angular-bootstrap-colorpicker": "~3.0.7",
+    "font-awesome": "~4.1.0"
+  }
+}
