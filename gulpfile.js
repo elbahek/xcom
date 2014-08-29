@@ -30,7 +30,8 @@ catch (e) {
 gulp.task('copyFonts', function() {
     var fonts = [
         bowerDir + '/bootstrap/fonts/*',
-        bowerDir + '/font-awesome/fonts/*'
+        bowerDir + '/font-awesome/fonts/*',
+        appDir + '/assets/fonts/*'
     ];
 
     return gulp.src(fonts)
@@ -76,6 +77,7 @@ gulp.task('copyCss', [ 'compileLess' ], function() {
         buildDir + '/bootstrap.css',
         buildDir + '/bootstrap-theme.css',
         bowerDir + '/font-awesome/css/font-awesome.css',
+        appDir + '/assets/css/digital-dream.css',
         bowerDir + '/angular-bootstrap-colorpicker/css/colorpicker.css',
         buildDir + '/all-local.css'
     ];
@@ -89,6 +91,9 @@ gulp.task('copyCss', [ 'compileLess' ], function() {
 // copy third-party js to public dir (minify on production)
 gulp.task('copyThirdPartyJs', function() {
     var js = [
+        bowerDir + '/moment/moment.js',
+        bowerDir + '/moment/lang/ru.js',
+        bowerDir + '/moment-timezone/builds/moment-timezone-with-data-2010-2020.js',
         bowerDir + '/angular/angular.js',
         bowerDir + '/angular-route/angular-route.js',
         bowerDir + '/angular-cookies/angular-cookies.js',
@@ -99,6 +104,7 @@ gulp.task('copyThirdPartyJs', function() {
         bowerDir + '/angular-bootstrap/ui-bootstrap.js',
         bowerDir + '/angular-bootstrap/ui-bootstrap-tpls.js',
         bowerDir + '/angular-bootstrap-colorpicker/js/bootstrap-colorpicker-module.js',
+        bowerDir + '/angular-moment/angular-moment.js'
     ];
 
     return gulp.src(js, { base: bowerDir })
@@ -110,6 +116,7 @@ gulp.task('copyThirdPartyJs', function() {
 
 var appJs = [
     xcomModuleDir + '/xcom.js',
+    xcomModuleDir + '/services/app-data.js',
     xcomModuleDir + '/controllers/main.js'
 ];
 // copy app js to public dir (minify on production)
@@ -134,7 +141,16 @@ gulp.task('watchJs', function() {
 
 // watch less for changes and run corresponding tasks
 gulp.task('watchLess', function() {
-    return gulp.watch(appDir + '/assets/less/*.less', ['copyCss']);
+    var styles = [
+        appDir + '/assets/less/*.less',
+        appDir + '/assets/css/*.css'
+    ];
+    return gulp.watch(styles, ['copyCss']);
+});
+
+// watch fonts for changes and run corresponding tasks
+gulp.task('watchFonts', function() {
+    return gulp.watch(appDir + '/assets/fonts/*', ['copyFonts']);
 });
 
 // watch views for changes and run corresponding tasks
@@ -152,6 +168,7 @@ gulp.task('default', [
     'jshint',
     'watchViews',
     'watchJs',
+    'watchFonts',
     'watchLess'
 ], function() {
     nodemon({

@@ -26,6 +26,9 @@
     "angular-cookies": "~1.2.18",
     "angular-translate-loader-static-files": "~2.2.0",
     "angular-bootstrap-colorpicker": "~3.0.7",
-    "font-awesome": "~4.1.0"
+    "font-awesome": "~4.1.0",
+    "moment": "~2.8.2",
+    "angular-moment": "~0.8.0",
+    "moment-timezone": "~0.2.1"
   }
 }
