@@ -23,6 +23,9 @@ app.provider('appDataProvider', function() {
                     for (var i in this.bases) {
                         var base = this.bases[i];
                         base.isSelected = false;
+                        if (selectedBase === undefined && base.isMain) {
+                            selectedBase = base;
+                        }
                     }
                     this.baseContext = selectedBase;
                     this.baseContext.isSelected = true;
@@ -70,7 +73,7 @@ app.provider('appDataProvider', function() {
                 appData.bases = bases;
                 appData.recalculateBasesDateTimes();
 
-                appData.setBaseContext(appData.bases[1]);
+                appData.setBaseContext();
             };
 
             prepareData();

@@ -41,6 +41,7 @@
                         <div class="base-wrapper" ng-repeat="base in appData.bases" ng-style="{'border-color': base.color, 'background-color': (base.isSelected ? base.color : '#fff')}" ng-class="{'base-wrapper-first': $first, 'base-wrapper-last': $last, 'base-wrapper-selected': base.isSelected}">
                             <div class="base-location" ng-click="appData.setBaseContext(base)">{{ base.location }}</div>
                             <div class="base-time">{{ base.currentDateTime.format('HH:mm') }}</div>
+                            <i class="fa fa-star main-base-icon" ng-show="base.isMain"></i>
                         </div>
                     </div>
                 </div>
