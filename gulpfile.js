@@ -117,7 +117,8 @@ gulp.task('copyThirdPartyJs', function() {
 var appJs = [
     xcomModuleDir + '/xcom.js',
     xcomModuleDir + '/services/app-data.js',
-    xcomModuleDir + '/controllers/main.js'
+    xcomModuleDir + '/controllers/main.js',
+    xcomModuleDir + '/directives/bases-time-controls.js'
 ];
 // copy app js to public dir (minify on production)
 gulp.task('copyAppJs', function() {

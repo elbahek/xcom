@@ -1,0 +1,35 @@
+<div class="set-date-time">
+    <div class="set-date">
+        <i class="fa fa-chevron-circle-left subtract-day" ng-click="appData.changeCurrentDateTime('subtract', 1, 'days')"></i>
+        <div class="current-date">{{ appData.baseContext.currentDateTime.format('D MMM YYYY') }}</div>
+        <i class="fa fa-chevron-circle-right add-day" ng-click="appData.changeCurrentDateTime('add', 1, 'days')"></i>
+    </div>
+    <div class="set-time">
+        <div class="set-hours">
+            <div class="add-hour">
+                <i class="fa fa-caret-up" ng-click="appData.changeCurrentDateTime('add', 1, 'hours')"></i>
+            </div>
+            <div class="hours">{{ appData.baseContext.currentDateTime.format('HH') }}</div>
+            <div class="subtract-hour">
+                <i class="fa fa-caret-down" ng-click="appData.changeCurrentDateTime('subtract', 1, 'hours')"></i>
+            </div>
+        </div>
+        <div class="set-minutes">
+            <div class="add-minute">
+                <i class="fa fa-caret-up" ng-click="appData.changeCurrentDateTime('add', 1, 'minutes')"></i>
+            </div>
+            <div class="minutes">{{ appData.baseContext.currentDateTime.format('mm') }}</div>
+            <div class="subtract-minute">
+                <i class="fa fa-caret-down" ng-click="appData.changeCurrentDateTime('subtract', 1, 'minutes')"></i>
+            </div>
+        </div>
+    </div>
+</div>
+<i class="start-stop-skiptime fa" ng-class="(appData.isSkippingTime ? 'fa-pause' : 'fa-play-circle')" ng-click="appData.toggleSkipTime()"></i>
+<div class="bases">
+    <div class="base-wrapper" ng-repeat="base in appData.bases" ng-style="{'border-color': base.color, 'background-color': (base.isSelected ? base.color : '#fff')}" ng-class="{'base-wrapper-first': $first, 'base-wrapper-last': $last, 'base-wrapper-selected': base.isSelected}">
+        <div class="base-location" ng-click="appData.setBaseContext(base)">{{ base.location }}</div>
+        <div class="base-time">{{ base.currentDateTime.format('HH:mm') }}</div>
+        <i class="fa fa-star main-base-icon" ng-show="base.isMain"></i>
+    </div>
+</div>
