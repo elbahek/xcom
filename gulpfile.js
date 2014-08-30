@@ -17,7 +17,7 @@ var config = require('config'),
     xcomModuleDir = config.get('xcomModuleDir');
 
 try {
-    var environment = require(config.get('siteDir') + 'environment.json').value;
+    var environment = require(config.get('siteDir') + '/environment.json').value;
     if (['development', 'production'].indexOf(environment) === -1) {
         environment = 'production';
     }
@@ -44,7 +44,7 @@ gulp.task('copyViews', function() {
     ];
 
     return gulp.src(views, { base: xcomModuleDir + '/views' })
-        .pipe(gulp.dst(publicDir + '/views'));
+        .pipe(gulp.dest(publicDir + '/views'));
 });
 
 // copy translations to public folder
@@ -109,7 +109,8 @@ gulp.task('copyThirdPartyJs', function() {
 
 
 var appJs = [
-    xcomModuleDir + '/xcom.js'
+    xcomModuleDir + '/xcom.js',
+    xcomModuleDir + '/controllers/main.js'
 ];
 // copy app js to public dir (minify on production)
 gulp.task('copyAppJs', function() {
@@ -143,13 +144,13 @@ gulp.task('watchViews', function() {
 
 gulp.task('default', [
     'copyFonts',
-    // 'copyViews',
+    'copyViews',
     // 'copyTranslations',
     'copyCss',
     'copyThirdPartyJs',
     'copyAppJs',
     'jshint',
-    // 'watchViews',
+    'watchViews',
     'watchJs',
     'watchLess'
 ], function() {

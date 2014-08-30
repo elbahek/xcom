@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>title</title>
+    <%- styles %>
+</head>
+<body ng-app="xcom">
+    <div ng-controller="mainController">
+        <h1>{{ test }}</h1>
+        <ng-view></ng-view>
+    </div>
+
+    <%- scripts %>
+</body>
+</html>
