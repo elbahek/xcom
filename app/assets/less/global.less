@@ -3,11 +3,25 @@
 header {
     .blue-stripe {
         background-color: @brand-primary;
-        padding: 1em 2em;
+        height: 1em;
+        margin-bottom: 2em;
+    }
 
-        .well {
-            margin-bottom: 0;
-            display: inline-block;
+    .well {
+        margin-bottom: 0;
+        display: inline-block;
+        float: right;
+    }
+
+    .main-menu {
+        margin-left: 1em;
+
+        ul li {
+            z-index: 1;
+        }
+
+        ul li a {
+            cursor: pointer;
         }
     }
 
@@ -134,4 +148,9 @@ header {
             color: #aa1111;
         }
     }
+}
+
+.content-wrapper {
+    border: 1px solid #ddd;
+    margin-top: -1px;
 }
