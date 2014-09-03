@@ -118,6 +118,7 @@ var appJs = [
     xcomModuleDir + '/xcom.js',
     xcomModuleDir + '/services/app-data.js',
     xcomModuleDir + '/controllers/main.js',
+    xcomModuleDir + '/controllers/settings.js',
     xcomModuleDir + '/directives/bases-time-controls.js'
 ];
 // copy app js to public dir (minify on production)
