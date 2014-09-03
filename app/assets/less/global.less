@@ -5,15 +5,50 @@
 
 header {
     .blue-stripe {
-        background-color: @brand-primary;
-        height: 1em;
+        background-color: @blue-stripe-color;
+        height: @blue-stripe-height;
         margin-bottom: 2em;
     }
 
-    .well {
-        margin-bottom: 0;
-        display: inline-block;
-        float: right;
+    .tr-widgets {
+        z-index: 2;
+        background-color: #fff;
+        position: absolute;
+        top: @blue-stripe-height;
+        right: 1em;
+
+        .widgets-wrapper {
+            border: 3px solid @blue-stripe-color;
+            border-top: 0 none;
+            border-bottom-right-radius: @widgets-wrapper-border-radius;
+            border-bottom-left-radius: @widgets-wrapper-border-radius;
+            padding: 0.5em;
+
+            &.widgets-wrapper-opened {
+                display: block;
+            }
+
+            &.widgets-wrapper-closed {
+                display: none;
+            }
+        }
+
+        .widget-controls {
+            margin-right: (@widgets-wrapper-border-radius + 0.1);
+            float: right;
+
+            button {
+                border-top: 0 none;
+            }
+
+            .button-first {
+                border-top-left-radius: 0;
+            }
+
+            .button-last {
+                border-top-right-radius: 0;
+            }
+        }
     }
 
     .main-menu {

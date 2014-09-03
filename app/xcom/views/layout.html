@@ -7,10 +7,22 @@
 <body ng-app="xcom">
     <div ng-controller="mainController" class="page" ng-class="'page-'+pageClass">
         <header>
-            <div class="blue-stripe">
-                <div class="well well-sm">
-                <xcom-bases-time-controls></xcom-bases-time-controls>
-            </div>
+            <div class="blue-stripe"></div>
+            <div class="tr-widgets">
+                <div class="widgets-wrapper" ng-class="'widgets-wrapper-'+topRightWidgets.widgetsWrapperClass">
+                    <div ng-show="topRightWidgets.widgetsState.basesTimeControlsVisible">
+                        <xcom-bases-time-controls></xcom-bases-time-controls>
+                    </div>
+                    <div ng-show="topRightWidgets.widgetsState.testVisible">Test widget here</div>
+                </div>
+                <div class="btn-group widget-controls">
+                    <button type="button" class="btn btn-sm btn-default button-bases-time-control button-first" ng-click="toggleTrWidget('basesTimeControls')">
+                        <i class="fa fa-clock-o"></i>
+                    </button>
+                    <button type="button" class="btn btn-sm btn-default button-test button-last" ng-click="toggleTrWidget('test')">
+                        <i class="fa fa-bolt"></i>
+                    </button>
+                </div>
             </div>
             <div class="container-fluid">
                 <div class="row">
