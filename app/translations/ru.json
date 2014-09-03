@@ -1,0 +1,12 @@
+{
+    "menu": {
+        "index": "индекс",
+        "equipment": "инвентарь",
+        "settings": "настройки"
+    },
+    "pages": {
+        "settings": {
+            "language": "язык"
+        }
+    }
+}

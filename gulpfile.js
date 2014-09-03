@@ -159,10 +159,15 @@ gulp.task('watchViews', function() {
     return gulp.watch(xcomModuleDir + '/views/**/*.html', ['copyViews']);
 });
 
+// watch translations for changes and run corresponding tasks
+gulp.task('watchTranslations', function() {
+    return gulp.watch(appDir + '/translations/*.json', ['copyTranslations']);
+});
+
 gulp.task('default', [
     'copyFonts',
     'copyViews',
-    // 'copyTranslations',
+    'copyTranslations',
     'copyCss',
     'copyThirdPartyJs',
     'copyAppJs',

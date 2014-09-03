@@ -1,1 +1,19 @@
-settings.html
+<div class="page-settings">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-8 settings-column settings-column-first">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="panel-title" translate="pages.settings.language"></div>
+                    </div>
+                    <div class="panel-body">
+                        <select class="form-control" ng-model="userData.language" ng-change="setLanguage()">
+                            <option value="en">English</option>
+                            <option value="ru">Русский</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,12 @@
+{
+    "menu": {
+        "index": "index",
+        "equipment": "equipment",
+        "settings": "settings"
+    },
+    "pages": {
+        "settings": {
+            "language": "language"
+        }
+    }
+}

@@ -48,7 +48,6 @@ app.provider('appDataProvider', function() {
 
                 toggleSkipTime: function() {
                     this.isSkippingTime = !this.isSkippingTime;
-                    console.log(this.isSkippingTime, this.skipTimeIntervalRef);
                     var appData = this;
                     if (this.isSkippingTime) {
                         appData.skipTimeIntervalRef = $interval(function() {
