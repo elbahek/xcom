@@ -93,7 +93,7 @@ gulp.task('copyCss', [ 'compileLess' ], function() {
 gulp.task('copyThirdPartyJs', function() {
     var js = [
         bowerDir + '/moment/moment.js',
-        bowerDir + '/moment/lang/ru.js',
+        bowerDir + '/moment/locale/ru.js',
         bowerDir + '/moment-timezone/builds/moment-timezone-with-data-2010-2020.js',
         bowerDir + '/angular/angular.js',
         bowerDir + '/angular-route/angular-route.js',
@@ -189,6 +189,7 @@ gulp.task('default', [
     nodemon({
         script: 'server.js',
         ext: 'html js less',
+        ignore: [ appDir + '/**', buildDir + '/**', bowerDir + '/**', publicDir + '/**' ],
         env: { 'NODE_ENV': environment }
     });
 });
