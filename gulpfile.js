@@ -51,7 +51,7 @@ gulp.task('copyViews', function() {
 // copy translations to public folder
 gulp.task('copyTranslations', function() {
     var translations = [
-        appDir + '/translations/*.js'
+        appDir + '/translations/*.json'
     ];
 
     return gulp.src(translations)
@@ -176,6 +176,7 @@ gulp.task('default', [
     'watchViews',
     'watchJs',
     'watchFonts',
+    'watchTranslations',
     'watchLess'
 ], function() {
     nodemon({
