@@ -4,6 +4,7 @@ var gulp = require('gulp'),
     uglify = require('gulp-uglify'),
     concat = require('gulp-concat'),
     gulpif = require('gulp-if'),
+    rimraf = require('gulp-rimraf'),
     jshint = require('gulp-jshint'),
     jshintStylish = require('jshint-stylish'),
     nodemon = require('gulp-nodemon');
@@ -164,6 +165,12 @@ gulp.task('watchViews', function() {
 gulp.task('watchTranslations', function() {
     return gulp.watch(appDir + '/translations/*.json', ['copyTranslations']);
 });
+
+// remove all files from public dir
+gulp.task('rmrf', function() {
+    gulp.src(publicDir + '/**/*.*', { read: false })
+        .pipe(rimraf());
+})
 
 gulp.task('default', [
     'copyFonts',
