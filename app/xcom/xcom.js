@@ -1,4 +1,4 @@
-var app = angular.module('xcom', ['ngRoute', 'ngCookies', 'pascalprecht.translate', 'ui.bootstrap', 'angularMoment']);
+var app = angular.module('xcom', ['ngRoute', 'ngCookies', 'pascalprecht.translate', 'ui.bootstrap', 'colorpicker.module', 'angularMoment', 'xeditable']);
 
 app.constant('angularMomentConfig', {
     preprocess: 'utc'
@@ -8,6 +8,7 @@ app.config(['$routeProvider', '$translateProvider', function($routeProvider, $tr
     $routeProvider
         .when('/', { templateUrl: '/public/views/pages/index.html' })
         .when('/equipment', { templateUrl: '/public/views/pages/equipment.html' })
+        .when('/references', { templateUrl: '/public/views/pages/references.html' })
         .when('/settings', { templateUrl: '/public/views/pages/settings.html' });
 
     $translateProvider
@@ -23,3 +24,7 @@ app.config(['$routeProvider', '$translateProvider', function($routeProvider, $tr
         .determinePreferredLanguage()
         .useLocalStorage();
 }]);
+
+app.run(function(editableOptions) {
+    editableOptions.theme = 'bs3';
+});

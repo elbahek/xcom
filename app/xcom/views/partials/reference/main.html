@@ -1,0 +1,20 @@
+<div class="reference-wrapper">
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th ng-repeat="column in currentReference.columns track by $index">{{ column.translate | translate }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="row in currentReference.data">
+                    <td class="cell"
+                        ng-repeat="column in currentReference.columns"
+                        ng-class="'cell-' + column.type + (column.isReadOnly ? ' cell-read-only' : '')"
+                        ng-include="column.cellTemplatePath">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -80,6 +80,7 @@ gulp.task('copyCss', [ 'compileLess' ], function() {
         bowerDir + '/font-awesome/css/font-awesome.css',
         appDir + '/assets/css/digital-dream.css',
         bowerDir + '/angular-bootstrap-colorpicker/css/colorpicker.css',
+        bowerDir + '/angular-xeditable/dist/css/xeditable.css',
         buildDir + '/all-local.css'
     ];
 
@@ -92,6 +93,7 @@ gulp.task('copyCss', [ 'compileLess' ], function() {
 // copy third-party js to public dir (minify on production)
 gulp.task('copyThirdPartyJs', function() {
     var js = [
+        bowerDir + '/jquery/dist/jquery.js',
         bowerDir + '/moment/moment.js',
         bowerDir + '/moment/locale/ru.js',
         bowerDir + '/moment-timezone/builds/moment-timezone-with-data-2010-2020.js',
@@ -105,6 +107,7 @@ gulp.task('copyThirdPartyJs', function() {
         bowerDir + '/angular-bootstrap/ui-bootstrap.js',
         bowerDir + '/angular-bootstrap/ui-bootstrap-tpls.js',
         bowerDir + '/angular-bootstrap-colorpicker/js/bootstrap-colorpicker-module.js',
+        bowerDir + '/angular-xeditable/dist/js/xeditable.js',
         bowerDir + '/angular-moment/angular-moment.js'
     ];
 
@@ -118,9 +121,12 @@ gulp.task('copyThirdPartyJs', function() {
 var appJs = [
     xcomModuleDir + '/xcom.js',
     xcomModuleDir + '/services/app-data.js',
+    xcomModuleDir + '/services/helpers.js',
     xcomModuleDir + '/controllers/main.js',
     xcomModuleDir + '/controllers/settings.js',
-    xcomModuleDir + '/directives/bases-time-controls.js'
+    xcomModuleDir + '/controllers/references.js',
+    xcomModuleDir + '/directives/bases-time-controls.js',
+    xcomModuleDir + '/directives/reference.js'
 ];
 // copy app js to public dir (minify on production)
 gulp.task('copyAppJs', function() {

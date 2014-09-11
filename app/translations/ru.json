@@ -2,11 +2,27 @@
     "menu": {
         "index": "индекс",
         "equipment": "инвентарь",
+        "references": "справочники",
         "settings": "настройки"
     },
     "pages": {
         "settings": {
             "language": "язык"
+        }
+    },
+    "references": {
+        "basesColors": {
+            "name": "цвета баз",
+            "columns": {
+                "color": "цвет",
+                "isAvailable": "доступен"
+            }
+        },
+        "enemies": {
+            "name": "противники",
+            "columns": {
+                "title": "название"
+            }
         }
     }
 }

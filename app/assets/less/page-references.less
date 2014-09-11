@@ -1,0 +1,62 @@
+.page-references {
+
+    .references-list {
+
+        ul li a {
+            .menu-item();
+        }
+    }
+
+    .references-column {
+        .column-with-padding();
+    }
+
+    table thead th {
+        text-transform: capitalize;
+        text-align: center;
+    }
+
+    .cell-colorpicker {
+        .colorpicker-wrapper {
+            position: relative;
+
+            .color-example {
+                position: absolute;
+                width: (@input-height-small / 2);
+                height: (@input-height-small / 2);
+                border-radius: (@input-border-radius / 2);
+                top: (@input-height-small / 4);
+                right: (@input-height-small / 4);
+            }
+        }
+    }
+
+    .cell-boolean {
+        text-align: center;
+
+        &.cell-read-only {
+            i {
+                font-size: 1.5em;
+            }
+
+            i.true {
+                color: @brand-success;
+            }
+
+            i.false {
+                color: @brand-danger;
+            }
+        }
+    }
+
+    .cell-text {
+        &:hover {
+            cursor: pointer;
+        }
+
+        &.cell-read-only {
+            cursor: text;
+        }
+    }
+
+}

@@ -1,0 +1,16 @@
+<div ng-controller="referencesController">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-4 references-column">
+                <tabset class="references-list" vertical="true" type="pills">
+                    <tab ng-repeat="reference in appData.references" select="setCurrentReference(reference)">
+                        <tab-heading>{{ reference.translate | translate }}</tab-heading>
+                    </tab>
+                </tabset>
+            </div>
+            <div class="col-lg-20 references-column">
+                <xcom-reference source="currentReference"></xcom-reference>
+            </div>
+        </div>
+    </div>
+</div>

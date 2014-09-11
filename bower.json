@@ -29,6 +29,7 @@
     "font-awesome": "~4.1.0",
     "moment": "~2.8.2",
     "angular-moment": "~0.8.0",
-    "moment-timezone": "~0.2.1"
+    "moment-timezone": "~0.2.1",
+    "angular-xeditable": "~0.1.8"
   }
 }

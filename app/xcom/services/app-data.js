@@ -2,21 +2,42 @@ var app = angular.module('xcom');
 
 app.provider('appDataProvider', function() {
     return {
-        $get: function($interval) {
+        $get: ['$interval', function($interval) {
             var appData = {
                 currentDateTime: null,
                 isSkippingTime: false,
                 skipTimeIntervalRef: null,
                 bases: null,
                 baseContext: null,
-                basesColors: [
-                    { color: '#007845', isUsed: true },
-                    { color: '#9C0063', isUsed: true },
-                    { color: '#3D6A7D', isUsed: true },
-                    { color: '#FFCC00', isUsed: false },
-                    { color: '#FF2400', isUsed: false },
-                    { color: '#AA1111', isUsed: false },
-                    { color: '#548FF4', isUsed: false },
+                references: [
+                    {
+                        name: 'basesColors',
+                        translate: 'references.basesColors.name',
+                        columns: [
+                            { name: 'color', translate: 'references.basesColors.columns.color', type: 'colorpicker' },
+                            { name: 'isAvailable', translate: 'references.basesColors.columns.isAvailable', type: 'boolean', isReadOnly: true }
+                        ],
+                        data: [
+                            { color: '#007845', isAvailable: false },
+                            { color: '#9C0063', isAvailable: false },
+                            { color: '#3D6A7D', isAvailable: false },
+                            { color: '#FFCC00', isAvailable: true },
+                            { color: '#FF2400', isAvailable: true },
+                            { color: '#AA1111', isAvailable: true },
+                            { color: '#548FF4', isAvailable: true }
+                        ]
+                    },
+                    {
+                        name: 'enemies',
+                        translate: 'references.enemies.name',
+                        columns: [
+                            { name: 'title', translate: 'references.enemies.columns.title' }
+                        ],
+                        data: [
+                            { title: 'sectoid' },
+                            { title: 'sectoid commander' }
+                        ]
+                    }
                 ],
 
                 setBaseContext: function(selectedBase) {
@@ -58,7 +79,18 @@ app.provider('appDataProvider', function() {
                         $interval.cancel(this.skipTimeIntervalRef);
                         this.skipTimeIntervalRef = null;
                     }
+                },
+
+                findReferenceByName: function(referenceName, foundReferenceCallback) {
+                    for (var i in this.references) {
+                        var reference = this.references[i];
+                        if (reference.name === referenceName) {
+                            foundReferenceCallback(reference);
+                            break;
+                        }
+                    }
                 }
+
             };
 
             var prepareData = function() {  
@@ -78,6 +110,6 @@ app.provider('appDataProvider', function() {
             prepareData();
 
             return appData;
-        }
+        }]
     };
 });

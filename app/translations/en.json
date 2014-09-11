@@ -2,11 +2,27 @@
     "menu": {
         "index": "index",
         "equipment": "equipment",
+        "references": "references",
         "settings": "settings"
     },
     "pages": {
         "settings": {
             "language": "language"
+        }
+    },
+    "references": {
+        "basesColors": {
+            "name": "bases colors",
+            "columns": {
+                "color": "color",
+                "isAvailable": "is available"
+            }
+        },
+        "enemies": {
+            "name": "enemies",
+            "columns": {
+                "title": "title"
+            }
         }
     }
 }
