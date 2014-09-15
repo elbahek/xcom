@@ -8,9 +8,17 @@
     "pages": {
         "settings": {
             "language": "language"
+        },
+        "references": {
+            "choose": "choose"
         }
     },
     "references": {
+        "columnsGeneral": {
+            "id": "id",
+            "name": "name",
+            "isDefault": "is default"
+        },
         "basesColors": {
             "name": "bases colors",
             "columns": {
@@ -19,10 +27,13 @@
             }
         },
         "enemies": {
-            "name": "enemies",
-            "columns": {
-                "title": "title"
-            }
+            "name": "enemies"
+        },
+        "combatTypes": {
+            "name": "combat types"
+        },
+        "earthCombatTemplates": {
+            "name": "earth combat templates"
         }
     }
 }

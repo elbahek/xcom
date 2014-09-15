@@ -8,9 +8,17 @@
     "pages": {
         "settings": {
             "language": "язык"
+        },
+        "references": {
+            "choose": "выберите"
         }
     },
     "references": {
+        "columnsGeneral": {
+            "id": "ид",
+            "name": "название",
+            "isDefault": "выбрано по-умолчанию"
+        },
         "basesColors": {
             "name": "цвета баз",
             "columns": {
@@ -23,6 +31,12 @@
             "columns": {
                 "title": "название"
             }
+        },
+        "combatTypes": {
+            "name": "типы боя"
+        },
+        "earthCombatTemplates": {
+            "name": "заготовки наземного боя"
         }
     }
 }

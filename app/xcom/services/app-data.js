@@ -11,31 +11,63 @@ app.provider('appDataProvider', function() {
                 baseContext: null,
                 references: [
                     {
+                        id: 1,
                         name: 'basesColors',
                         translate: 'references.basesColors.name',
                         columns: [
-                            { name: 'color', translate: 'references.basesColors.columns.color', type: 'colorpicker' },
+                            { name: 'id', display: false },
+                            { name: 'color', translate: 'references.basesColors.columns.color', type: 'color' },
                             { name: 'isAvailable', translate: 'references.basesColors.columns.isAvailable', type: 'boolean', isReadOnly: true }
                         ],
                         data: [
-                            { color: '#007845', isAvailable: false },
-                            { color: '#9C0063', isAvailable: false },
-                            { color: '#3D6A7D', isAvailable: false },
-                            { color: '#FFCC00', isAvailable: true },
-                            { color: '#FF2400', isAvailable: true },
-                            { color: '#AA1111', isAvailable: true },
-                            { color: '#548FF4', isAvailable: true }
+                            { id: 1, color: '#007845', isAvailable: false },
+                            { id: 2, color: '#9C0063', isAvailable: false },
+                            { id: 3, color: '#3D6A7D', isAvailable: false },
+                            { id: 4, color: '#FFCC00', isAvailable: true },
+                            { id: 5, color: '#FF2400', isAvailable: true },
+                            { id: 6, color: '#AA1111', isAvailable: true },
+                            { id: 7, color: '#548FF4', isAvailable: true }
                         ]
                     },
                     {
+                        id: 2,
                         name: 'enemies',
                         translate: 'references.enemies.name',
                         columns: [
-                            { name: 'title', translate: 'references.enemies.columns.title' }
+                            { name: 'id', display: false },
+                            { name: 'name' }
                         ],
                         data: [
-                            { title: 'sectoid' },
-                            { title: 'sectoid commander' }
+                            { id: 8, name: 'sectoid' },
+                            { id: 9, name: 'sectoid commander' }
+                        ]
+                    },
+                    {
+                        id: 3,
+                        name: 'combatTypes',
+                        translate: 'references.combatTypes.name',
+                        columns: [
+                            { name: 'id', display: false },
+                            { name: 'name' },
+                            { name: 'earthCombatTemplate', translate: 'references.earthCombatTemplates.name', type: 'referenceLink', referenceLinkSource: null }
+                        ],
+                        data: [
+                            { id: 10, name: 'generic combat', earthCombatTemplate: null },
+                            { id: 11, name: 'assault', earthCombatTemplate: null }
+                        ]
+                    },
+                    {
+                        id: 4,
+                        name: 'earthCombatTemplates',
+                        translate: 'references.earthCombatTemplates.name',
+                        columns: [
+                            { name: 'id', display: false },
+                            { name: 'name' },
+                            { name: 'enemies', translate: 'references.enemies.name', type: 'referenceLink', referenceLinkSource: null, isMultiple: true },
+                        ],
+                        data: [
+                            { id: 12, name: 'weakest', enemies: [] },
+                            { id: 13, name: 'weak', enemies: [] }
                         ]
                     }
                 ],
@@ -89,8 +121,27 @@ app.provider('appDataProvider', function() {
                             break;
                         }
                     }
+                },
+
+                removeChildFromMultipleReference: function(list, position) {
+                    for (var i in list) {
+                        if (i == position) {
+                            list.splice(position, 1);
+                            break;
+                        }
+                    }
                 }
 
+            };
+
+            var tempPrepareReferences = function() {
+                appData.references[2].columns[2].referenceLinkSource = appData.references[3];
+                appData.references[2].data[0].earthCombatTemplate = appData.references[3].data[0];
+                appData.references[2].data[1].earthCombatTemplate = appData.references[3].data[1];
+
+                appData.references[3].columns[2].referenceLinkSource = appData.references[1];
+                appData.references[3].data[0].enemies = [ appData.references[1].data[0], appData.references[1].data[0] ];
+                appData.references[3].data[1].enemies = [ appData.references[1].data[0], appData.references[1].data[1] ];
             };
 
             var prepareData = function() {  
@@ -105,6 +156,8 @@ app.provider('appDataProvider', function() {
                 appData.recalculateBasesDateTimes();
 
                 appData.setBaseContext();
+
+                tempPrepareReferences();
             };
 
             prepareData();

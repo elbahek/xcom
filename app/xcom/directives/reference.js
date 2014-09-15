@@ -4,7 +4,11 @@ app.directive('xcomReference', ['$compile', 'helpersFactory', function($compile,
     var referenceTemplatesPath = '/public/views/partials/reference';
     var defaultColumnParameters = {
         type: 'text',
-        isReadOnly: false
+        isReadOnly: false,
+        display: true,
+        isRadio: false,
+        isMultiple: false,
+        referenceLinkSource: null
     };
 
     return {
@@ -18,9 +22,16 @@ app.directive('xcomReference', ['$compile', 'helpersFactory', function($compile,
                     var tmp = angular.copy(defaultColumnParameters);
                     column = helpersFactory.extendDeep(tmp, column);
 
-                    var cellTemplateName = column.type + 'Cell';
+                    // add default translations
+                    if (column.translate === undefined) {
+                        column.translate = 'references.columnsGeneral.' + column.name;
+                    }
+
+                    // add template name
+                    var cellTemplateName = helpersFactory.convertToCssCase(column.type) + '-cell';
                     column.cellTemplatePath = referenceTemplatesPath + '/' + cellTemplateName +'.html';
 
+                    // flag if column is already merged in with default parameters
                     column._isMerged = true;
                     return column;
                 }

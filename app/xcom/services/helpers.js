@@ -1,6 +1,8 @@
 var app = angular.module('xcom');
 
 app.factory('helpersFactory', [function() {
+    
+    
     return {
         extendDeep: function(dst) {
             var _this = this;
@@ -16,6 +18,11 @@ app.factory('helpersFactory', [function() {
                 }
             });
             return dst;
+        },
+        convertToCssCase: function(rawString) {
+            return rawString.replace(/[A-Z]/g, function(match) {
+                return '-' + match.toLowerCase();
+            });
         }
     };
 }]);

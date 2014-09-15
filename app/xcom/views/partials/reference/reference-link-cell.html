@@ -1,0 +1,15 @@
+<div class="reference-link-wrapper reference-link-wrapper-multiple" ng-if="column.isMultiple">
+    <div class="reference" ng-repeat="link in row[column.name] track by $index">
+        <span>{{ link.name }}</span>
+        <i class="fa fa-times-circle" ng-click="appData.removeChildFromMultipleReference(row[column.name], $index)"></i>
+    </div>
+    <select class="form-control input-sm select-reference-link-add">
+        <option value="" translate="pages.references.choose"></option>
+        <option ng-repeat="opt in column.referenceLinkSource.data" ng-value="opt.id">{{ opt.name }}</option>
+    </select>
+</div>
+<div class="reference-link-wrapper" ng-if="!column.isMultiple">
+    <select class="form-control">
+        <option ng-repeat="opt in column.referenceLinkSource.data" ng-value="opt.id" ng-selected="row[column.name].name === opt.name">{{ opt.name }}</option>
+    </select>
+</div>

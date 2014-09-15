@@ -3,7 +3,10 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th ng-repeat="column in currentReference.columns track by $index">{{ column.translate | translate }}</th>
+                    <th ng-repeat="column in currentReference.columns track by $index"
+                        ng-if="column.display">
+                        {{ column.translate | translate }}
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -11,7 +14,8 @@
                     <td class="cell"
                         ng-repeat="column in currentReference.columns"
                         ng-class="'cell-' + column.type + (column.isReadOnly ? ' cell-read-only' : '')"
-                        ng-include="column.cellTemplatePath">
+                        ng-include="column.cellTemplatePath"
+                        ng-if="column.display">
                     </td>
                 </tr>
             </tbody>
