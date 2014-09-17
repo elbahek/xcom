@@ -17,19 +17,19 @@
     "tests"
   ],
   "dependencies": {
-    "angular": "~1.2.17",
-    "bootstrap": "~3.1.1",
-    "angular-route": "~1.2.18",
-    "angular-bootstrap": "~0.11.0",
-    "angular-translate": "~2.2.0",
-    "angular-translate-storage-local": "~2.2.0",
-    "angular-cookies": "~1.2.18",
-    "angular-translate-loader-static-files": "~2.2.0",
-    "angular-bootstrap-colorpicker": "~3.0.7",
-    "font-awesome": "~4.1.0",
+    "angular": "latest",
+    "bootstrap": "latest",
+    "angular-route": "latest",
+    "angular-bootstrap": "latest",
+    "angular-translate": "latest",
+    "angular-translate-storage-local": "latest",
+    "angular-cookies": "latest",
+    "angular-translate-loader-static-files": "latest",
+    "angular-bootstrap-colorpicker": "latest",
+    "font-awesome": "latest",
     "moment": "~2.8.2",
-    "angular-moment": "~0.8.0",
     "moment-timezone": "~0.2.1",
-    "angular-xeditable": "~0.1.8"
+    "angular-moment": "latest",
+    "angular-xeditable": "latest"
   }
 }
