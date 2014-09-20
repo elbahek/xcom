@@ -1,0 +1,16 @@
+{
+  "development": {
+    "username": null,
+    "password": null,
+    "database": "xcom",
+    "dialect": "sqlite",
+    "storage": "db/xcom.db3"
+  },
+  "production": {
+    "username": null,
+    "password": null,
+    "database": "xcom",
+    "dialect": "sqlite",
+    "storage": "db/xcom.db3"
+  }
+}

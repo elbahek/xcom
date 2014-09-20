@@ -10,5 +10,21 @@ module.exports = {
     publicDir: siteDir +'/public',
     buildDir: siteDir +'/build',
     xcomModuleDir: siteDir +'/app/xcom',
-    dbDir: siteDir +'/db'
+    db: {
+        name: 'xcom',
+        options: {
+            storage: siteDir +'/db/xcom.db3',
+            dialect: 'sqlite',
+            omitNull: false,
+            sync: { force: false },
+            syncOnAssociation: false,
+            language: 'en',
+            define: {
+                underscored: false,
+                syncOnAssociation: false,
+                timestamps: false,
+                freezeTableName: true
+            }
+        }
+    }
 };
