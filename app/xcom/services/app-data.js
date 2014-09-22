@@ -2,12 +2,12 @@ var app = angular.module('xcom');
 
 app.provider('appDataProvider', function() {
     return {
-        $get: ['$interval', function($interval) {
+        $get: ['$interval', '$http', function($interval, $http) {
             var appData = {
                 currentDateTime: null,
                 isSkippingTime: false,
                 skipTimeIntervalRef: null,
-                bases: null,
+                bases: [],
                 baseContext: null,
                 references: [
                     {
@@ -144,23 +144,38 @@ app.provider('appDataProvider', function() {
                 appData.references[3].data[1].enemies = [ appData.references[1].data[0], appData.references[1].data[1] ];
             };
 
-            var prepareData = function() {  
-                appData.currentDateTime = moment().utc();
-
-                var bases = [
-                    { location: 'Vancouver', timezone: 'America/Vancouver', currentDateTime: null, color: '#007845', isMain: true, isSelected: false },
-                    { location: 'Zurich', timezone: 'Europe/Zurich', currentDateTime: null, color: '#9C0063', isMain: false, isSelected: false },
-                    { location: 'Kiev', timezone: 'Europe/Kiev', currentDateTime: null, color: '#3D6A7D', isMain: false, isSelected: false }
-                ];
-                appData.bases = bases;
-                appData.recalculateBasesDateTimes();
-
-                appData.setBaseContext();
-
-                tempPrepareReferences();
+            var prepareVariables = function(variables) {
+                for (var i in variables) {
+                    var name = variables[i].name;
+                    var value = variables[i].value;
+                    if (name === 'currentDateTime') {
+                        appData[name] = moment(value).utc();
+                    }
+                    else {
+                        appData[name] = value;
+                    }
+                }
             };
 
-            prepareData();
+            var prepareBases = function(bases) {
+                for (var i in bases) {
+                    var base = bases[i];
+                    base.currentDateTime = null;
+                    base.isSelected = null;
+                    appData.bases.push(base);
+                }
+                appData.recalculateBasesDateTimes();
+                appData.setBaseContext();
+            };
+
+            $http.get('/backend/all')
+                .success(function(response) {
+                    prepareVariables(response.data.variables);
+                    prepareBases(response.data.bases);
+                    tempPrepareReferences();
+                })
+                .error(function(){});
+
 
             return appData;
         }]
