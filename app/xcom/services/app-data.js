@@ -88,7 +88,7 @@ app.provider('appDataProvider', function() {
                     if (['add', 'subtract'].indexOf(operation) === -1) return;
                     if (['days', 'hours', 'minutes'].indexOf(unit) === -1) return;
                     if (!angular.isNumber(num)) return;
-                    this.currentDateTime[operation](unit, num);
+                    this.currentDateTime[operation](num, unit);
                     this.recalculateBasesDateTimes();
                 },
 
