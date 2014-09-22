@@ -134,6 +134,36 @@ app.provider('appDataProvider', function() {
 
             };
 
+            var backendRequest = function(url) {
+                if (url === undefined) return;
+                url = '/backend' + url;
+                var args = Array.prototype.slice.call(arguments, 0).sort();
+                var method = 'POST';
+                var data = null;
+                var successCallback = null;
+                while (args.length > 1) {
+                    var lastArg = args.pop();
+                    if (angular.isFunction(lastArg)) {
+                        successCallback = lastArg;
+                    }
+                    if (angular.isObject(lastArg)) {
+                        data = lastArg;
+                    }
+                    if (angular.isString(lastArg) && ['GET', 'POST'].indexOf(lastArg.toUpperCase()) !== -1) {
+                        method = lastArg.toUpperCase();
+                    }
+                }
+
+                $http({ method: method, url: url, data: data })
+                    .success(function(response) {
+                        successCallback(response.data);
+                    })
+                    .error(function(response, status) {
+                        console.log('Status: ' + status + '; Response: ');
+                        console.trace(response);
+                    });
+            };
+
             var tempPrepareReferences = function() {
                 appData.references[2].columns[2].referenceLinkSource = appData.references[3];
                 appData.references[2].data[0].earthCombatTemplate = appData.references[3].data[0];
@@ -168,13 +198,11 @@ app.provider('appDataProvider', function() {
                 appData.setBaseContext();
             };
 
-            $http.get('/backend/all')
-                .success(function(response) {
-                    prepareVariables(response.data.variables);
-                    prepareBases(response.data.bases);
-                    tempPrepareReferences();
-                })
-                .error(function(){});
+            backendRequest('/all', 'GET', function(data) {
+                prepareVariables(data.variables);
+                prepareBases(data.bases);
+                tempPrepareReferences();
+            });
 
 
             return appData;

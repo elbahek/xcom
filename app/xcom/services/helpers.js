@@ -1,8 +1,6 @@
 var app = angular.module('xcom');
 
 app.factory('helpersFactory', [function() {
-    
-    
     return {
         extendDeep: function(dst) {
             var _this = this;
