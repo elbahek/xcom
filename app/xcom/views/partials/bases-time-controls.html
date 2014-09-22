@@ -8,20 +8,20 @@
         <div class="set-time">
             <div class="set-hours">
                 <div class="add-hour">
-                    <i class="fa fa-caret-up" ng-click="appData.changeCurrentDateTime('add', 1, 'hours')"></i>
+                    <i class="fa fa-caret-up" ng-click="appData.changeCurrentDateTime('add', 1, 'hours')" ng-style="{'color':appData.baseContext.color}"></i>
                 </div>
-                <div class="hours">{{ appData.baseContext.currentDateTime.format('HH') }}</div>
+                <div class="hours" ng-style="{'color':appData.baseContext.color}">{{ appData.baseContext.currentDateTime.format('HH') }}</div>
                 <div class="subtract-hour">
-                    <i class="fa fa-caret-down" ng-click="appData.changeCurrentDateTime('subtract', 1, 'hours')"></i>
+                    <i class="fa fa-caret-down" ng-click="appData.changeCurrentDateTime('subtract', 1, 'hours')" ng-style="{'color':appData.baseContext.color}"></i>
                 </div>
             </div>
             <div class="set-minutes">
                 <div class="add-minute">
-                    <i class="fa fa-caret-up" ng-click="appData.changeCurrentDateTime('add', 1, 'minutes')"></i>
+                    <i class="fa fa-caret-up" ng-click="appData.changeCurrentDateTime('add', 1, 'minutes')" ng-style="{'color':appData.baseContext.color}"></i>
                 </div>
-                <div class="minutes">{{ appData.baseContext.currentDateTime.format('mm') }}</div>
+                <div class="minutes" ng-style="{'color':appData.baseContext.color}">{{ appData.baseContext.currentDateTime.format('mm') }}</div>
                 <div class="subtract-minute">
-                    <i class="fa fa-caret-down" ng-click="appData.changeCurrentDateTime('subtract', 1, 'minutes')"></i>
+                    <i class="fa fa-caret-down" ng-click="appData.changeCurrentDateTime('subtract', 1, 'minutes')" ng-style="{'color':appData.baseContext.color}"></i>
                 </div>
             </div>
         </div>
