@@ -84,10 +84,12 @@ header {
 
     .set-time {
         text-align: center;
+        .user-select(none);
 
         .add-minute, .subtract-minute, .add-hour, .subtract-hour {
             display: block;
             text-align: center;
+            .user-select(none);
         }
 
         i {
@@ -101,13 +103,14 @@ header {
 
         .set-hours, .set-minutes {
             display: inline-block;
+            .user-select(none);
         }
 
         .set-hours .hours, .set-minutes .minutes {
             font-family: @font-family-digital;
             font-size: 2em;
             display: inline-block;
-            // text-shadow: 0px 0px 2px rgba(0, 0, 0, 0.75);
+            .user-select(none);
         }
     }
 
