@@ -1,32 +1,33 @@
 <div class="bases-time-control-widget">
     <div class="set-date-time">
         <div class="set-date">
-            <i class="fa fa-chevron-circle-left subtract-day" ng-click="appData.changeCurrentDateTime('subtract', 1, 'days')"></i>
+            <i class="fa fa-chevron-circle-left subtract-day" ng-click="appData.changeCurrentDateTime('subtract', 1, 'days')" ng-if="appData.permissions.setTime"></i>
             <div class="current-date">{{ appData.baseContext.currentDateTime.format('D MMM YYYY') }}</div>
-            <i class="fa fa-chevron-circle-right add-day" ng-click="appData.changeCurrentDateTime('add', 1, 'days')"></i>
+            <i class="fa fa-chevron-circle-right add-day" ng-click="appData.changeCurrentDateTime('add', 1, 'days')" ng-if="appData.permissions.setTime"></i>
         </div>
         <div class="set-time">
             <div class="set-hours">
-                <div class="add-hour">
+                <div class="add-hour" ng-if="appData.permissions.setTime">
                     <i class="fa fa-caret-up" ng-click="appData.changeCurrentDateTime('add', 1, 'hours')" ng-style="{'color':appData.baseContext.color}"></i>
                 </div>
                 <div class="hours" ng-style="{'color':appData.baseContext.color}">{{ appData.baseContext.currentDateTime.format('HH') }}</div>
-                <div class="subtract-hour">
+                <div class="subtract-hour" ng-if="appData.permissions.setTime">
                     <i class="fa fa-caret-down" ng-click="appData.changeCurrentDateTime('subtract', 1, 'hours')" ng-style="{'color':appData.baseContext.color}"></i>
                 </div>
             </div>
             <div class="set-minutes">
-                <div class="add-minute">
+                <div class="add-minute" ng-if="appData.permissions.setTime">
                     <i class="fa fa-caret-up" ng-click="appData.changeCurrentDateTime('add', 1, 'minutes')" ng-style="{'color':appData.baseContext.color}"></i>
                 </div>
                 <div class="minutes" ng-style="{'color':appData.baseContext.color}">{{ appData.baseContext.currentDateTime.format('mm') }}</div>
-                <div class="subtract-minute">
+                <div class="subtract-minute" ng-if="appData.permissions.setTime">
                     <i class="fa fa-caret-down" ng-click="appData.changeCurrentDateTime('subtract', 1, 'minutes')" ng-style="{'color':appData.baseContext.color}"></i>
                 </div>
             </div>
         </div>
     </div>
-    <i class="start-stop-skiptime fa" ng-class="(appData.isSkippingTime ? 'fa-pause' : 'fa-play-circle')" ng-click="appData.toggleSkipTime()"></i>
+    <i class="start-stop-skiptime fa" ng-class="(appData.isSkippingTime ? 'fa-pause' : 'fa-play-circle')" ng-click="appData.toggleSkipTime()" ng-if="appData.permissions.skipTime"></i>
+    <i class="start-stop-skiptime start-stop-skiptime-inactive fa fa-play-circle" ng-if="!appData.permissions.skipTime"></i>
     <div class="bases">
         <div class="base-wrapper" ng-repeat="base in appData.bases" ng-style="{'border-color': base.color, 'background-color': (base.isSelected ? base.color : '#fff')}" ng-class="{'base-wrapper-first': $first, 'base-wrapper-last': $last, 'base-wrapper-selected': base.isSelected}">
             <div class="base-location" ng-click="appData.setBaseContext(base)">{{ base.location }}</div>

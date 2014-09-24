@@ -9,6 +9,7 @@ app.provider('appDataProvider', function() {
                 skipTimeIntervalRef: null,
                 bases: [],
                 baseContext: null,
+                permissions: null,
                 references: [
                     {
                         id: 1,
@@ -156,9 +157,6 @@ app.provider('appDataProvider', function() {
                     if (angular.isObject(lastArg)) {
                         data = lastArg;
                     }
-                    if (angular.isString(lastArg) && ['GET', 'POST'].indexOf(lastArg.toUpperCase()) !== -1) {
-                        method = lastArg.toUpperCase();
-                    }
                 }
 
                 $http({ method: method, url: url, data: data })
@@ -205,9 +203,10 @@ app.provider('appDataProvider', function() {
                 appData.setBaseContext();
             };
 
-            backendRequest('/all', 'GET', function(data) {
+            backendRequest('/all', function(data) {
                 prepareVariables(data.variables);
                 prepareBases(data.bases);
+                appData.permissions = data.permissions;
                 tempPrepareReferences();
             });
 
