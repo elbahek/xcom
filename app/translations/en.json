@@ -17,6 +17,7 @@
         "columnsGeneral": {
             "id": "id",
             "name": "name",
+            "picture": "picture",
             "isDefault": "is default"
         },
         "basesColors": {

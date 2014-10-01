@@ -17,6 +17,7 @@
         "columnsGeneral": {
             "id": "ид",
             "name": "название",
+            "picture": "изображение",
             "isDefault": "выбрано по-умолчанию"
         },
         "basesColors": {

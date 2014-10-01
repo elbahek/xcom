@@ -2,7 +2,7 @@ var app = angular.module('xcom');
 
 app.provider('appDataProvider', function() {
     return {
-        $get: ['$interval', '$http', function($interval, $http) {
+        $get: ['$interval', '$http', '$translate', 'helpersFactory', function($interval, $http, $translate, helpersFactory) {
             var appData = {
                 currentDateTime: null,
                 isSkippingTime: false,
@@ -10,68 +10,8 @@ app.provider('appDataProvider', function() {
                 bases: [],
                 baseContext: null,
                 permissions: null,
-                references: [
-                    {
-                        id: 1,
-                        name: 'basesColors',
-                        translate: 'references.basesColors.name',
-                        columns: [
-                            { name: 'id', display: false },
-                            { name: 'color', translate: 'references.basesColors.columns.color', type: 'color' },
-                            { name: 'isAvailable', translate: 'references.basesColors.columns.isAvailable', type: 'boolean', isReadOnly: true }
-                        ],
-                        data: [
-                            { id: 1, color: '#007845', isAvailable: false },
-                            { id: 2, color: '#9C0063', isAvailable: false },
-                            { id: 3, color: '#3D6A7D', isAvailable: false },
-                            { id: 4, color: '#FFCC00', isAvailable: true },
-                            { id: 5, color: '#FF2400', isAvailable: true },
-                            { id: 6, color: '#AA1111', isAvailable: true },
-                            { id: 7, color: '#548FF4', isAvailable: true }
-                        ]
-                    },
-                    {
-                        id: 2,
-                        name: 'enemies',
-                        translate: 'references.enemies.name',
-                        columns: [
-                            { name: 'id', display: false },
-                            { name: 'name' }
-                        ],
-                        data: [
-                            { id: 8, name: 'sectoid' },
-                            { id: 9, name: 'sectoid commander' }
-                        ]
-                    },
-                    {
-                        id: 3,
-                        name: 'combatTypes',
-                        translate: 'references.combatTypes.name',
-                        columns: [
-                            { name: 'id', display: false },
-                            { name: 'name' },
-                            { name: 'earthCombatTemplate', translate: 'references.earthCombatTemplates.name', type: 'referenceLink', referenceLinkSource: null }
-                        ],
-                        data: [
-                            { id: 10, name: 'generic combat', earthCombatTemplate: null },
-                            { id: 11, name: 'assault', earthCombatTemplate: null }
-                        ]
-                    },
-                    {
-                        id: 4,
-                        name: 'earthCombatTemplates',
-                        translate: 'references.earthCombatTemplates.name',
-                        columns: [
-                            { name: 'id', display: false },
-                            { name: 'name' },
-                            { name: 'enemies', translate: 'references.enemies.name', type: 'referenceLink', referenceLinkSource: null, isMultiple: true },
-                        ],
-                        data: [
-                            { id: 12, name: 'weakest', enemies: [] },
-                            { id: 13, name: 'weak', enemies: [] }
-                        ]
-                    }
-                ],
+                references: [],
+                currentReference: null,
 
                 setBaseContext: function(selectedBase) {
                     for (var i in this.bases) {
@@ -119,6 +59,10 @@ app.provider('appDataProvider', function() {
                         $interval.cancel(this.skipTimeIntervalRef);
                         this.skipTimeIntervalRef = null;
                     }
+                },
+
+                setCurrentReference: function(reference) {
+                    this.currentReference = reference;
                 },
 
                 findReferenceByName: function(referenceName, foundReferenceCallback) {
@@ -203,11 +147,99 @@ app.provider('appDataProvider', function() {
                 appData.setBaseContext();
             };
 
+            var mergeInDefaultColumnParameters = function(column, reference) {
+                var defaultColumnParameters = {
+                    type: 'text',
+                    /*
+                    isReadOnly: false,
+                    display: true,
+                    isRadio: false,
+                    isMultiple: false,
+                    referenceLinkSource: null
+                    */
+                };
+                var tmp = angular.copy(defaultColumnParameters);
+                column = helpersFactory.extendDeep(tmp, column);
+
+                // add translations
+                var columnSpecificTranslation = 'references.'+ reference.name +'.columns.'+ column.name;
+                var columnDefaultTranslation = 'references.columnsGeneral.'+ column.name;
+                if (column.translate === undefined) {
+                    $translate(columnSpecificTranslation)
+                        .then(function(translation) {
+                            column.translate = columnSpecificTranslation;
+                        })
+                        .catch(function() {
+                            column.translate = columnDefaultTranslation;
+                        });
+                }
+
+                return column;
+            };
+
+            var prepareReferences = function(rawReferences) {
+                var references = [];
+                for (var i in rawReferences) {
+                    if (!rawReferences.hasOwnProperty(i)) continue;
+                    var rawReference = rawReferences[i];
+                    var reference = {};
+                    reference.name = rawReference.name;
+                    reference.translate = 'references.'+ reference.name +'.name';
+                    reference.columns = [];
+                    reference.data = [];
+                    for (var j in rawReference.columns) {
+                        if (!rawReference.columns.hasOwnProperty(j)) continue;
+                        var rawColumn = rawReference.columns[j];
+                        var column = {};
+                        column.name = rawColumn.name;
+                        column.order = rawColumn.order;
+                        if (rawColumn.options !== null && rawColumn.options !== undefined) {
+                            var options = JSON.parse(rawColumn.options);
+                            for (var k in options) {
+                                if (options.hasOwnProperty(k)) continue;
+                                column[k] = options[k];
+                            }
+                        }
+                        column = mergeInDefaultColumnParameters(column, reference);
+                        reference.columns.push(column);
+                    }
+
+                    if (rawReference.columns[0].data.length > 0) {
+                        for (var l in rawReference.columns[0].data) {
+                            var dataRow = {};
+                            dataRow.order = rawReference.columns[0].data[l].order;
+                            for (var m in rawReference.columns) {
+                                if (!rawReference.columns.hasOwnProperty(m)) continue;
+                                var rawColumn = rawReference.columns[m];
+                                var values = null;
+                                if (rawColumn.data[l].values.length === 1) {
+                                    values = rawColumn.data[l].values[0].value;
+                                }
+                                else if (rawColumn.data[l].values.length > 1) {
+                                    values = [];
+                                    for (var n in rawColumn.data[l].values) {
+                                        if (!rawColumn.data[l].values.hasOwnProperty(n)) continue;
+                                        values.push(rawColumn.data[l].values[n].value);
+                                    }
+                                }
+                                dataRow[rawColumn.name] = values;
+                            }
+                            reference.data.push(dataRow);
+                        }
+                    }
+
+                    references.push(reference);
+                }
+                appData.references = references;
+            };
+
             backendRequest('/all', function(data) {
                 prepareVariables(data.variables);
                 prepareBases(data.bases);
                 appData.permissions = data.permissions;
-                tempPrepareReferences();
+                prepareReferences(data.references);
+
+                appData.setCurrentReference(appData.references[0]);
             });
 
 

@@ -3,19 +3,17 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th ng-repeat="column in currentReference.columns track by $index"
-                        ng-if="column.display">
+                    <th ng-repeat="column in appData.currentReference.columns | orderBy:column.order track by $index">
                         {{ column.translate | translate }}
                     </th>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="row in currentReference.data">
+                <tr ng-repeat="row in appData.currentReference.data | orderBy:row.order track by $index">
                     <td class="cell"
-                        ng-repeat="column in currentReference.columns"
-                        ng-class="'cell-' + column.type + (column.isReadOnly ? ' cell-read-only' : '')"
-                        ng-include="column.cellTemplatePath"
-                        ng-if="column.display">
+                        ng-repeat="column in appData.currentReference.columns | orderBy:column.order track by $index"
+                        ng-class="'cell-' + column.type"
+                        ng-include="columnTemplates[column.type]">
                     </td>
                 </tr>
             </tbody>
