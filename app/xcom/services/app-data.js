@@ -2,7 +2,7 @@ var app = angular.module('xcom');
 
 app.provider('appDataProvider', function() {
     return {
-        $get: ['$interval', '$http', '$translate', 'helpersFactory', function($interval, $http, $translate, helpersFactory) {
+        $get: ['$interval', '$http', '$q', '$translate', 'helpersFactory', function($interval, $http, $q, $translate, helpersFactory) {
             var appData = {
                 currentDateTime: null,
                 isSkippingTime: false,
@@ -65,14 +65,25 @@ app.provider('appDataProvider', function() {
                     this.currentReference = reference;
                 },
 
-                findReferenceByName: function(referenceName, foundReferenceCallback) {
-                    for (var i in this.references) {
-                        var reference = this.references[i];
-                        if (reference.name === referenceName) {
-                            foundReferenceCallback(reference);
-                            break;
+                saveReferenceItem: function(data, referenceName, columnName) {
+                    return backendRequest(
+                        '/save-reference-item',
+                        { id: data.id, values: data.values, referenceName: referenceName, columnName: columnName },
+                        function(saveResponse) {
+                            return saveResponse;
                         }
-                    }
+                    )
+                    .then(function(httpResponse) {
+                        var deferred = $q.defer();
+                        if (!httpResponse.data.data.validationSuccess) {
+                            deferred.resolve(httpResponse.data.data.validationMessages.join('. '));
+                        }
+                        else {
+                            deferred.resolve();
+                        }
+
+                        return deferred.promise;
+                    });
                 },
 
                 removeChildFromMultipleReference: function(list, position) {
@@ -103,24 +114,14 @@ app.provider('appDataProvider', function() {
                     }
                 }
 
-                $http({ method: method, url: url, data: data })
+                return $http({ method: method, url: url, data: data })
                     .success(function(response) {
-                        successCallback(response.data);
+                        return successCallback(response.data);
                     })
                     .error(function(response, status) {
                         console.log('Status: ' + status + '; Response: ');
                         console.trace(response);
                     });
-            };
-
-            var tempPrepareReferences = function() {
-                appData.references[2].columns[2].referenceLinkSource = appData.references[3];
-                appData.references[2].data[0].earthCombatTemplate = appData.references[3].data[0];
-                appData.references[2].data[1].earthCombatTemplate = appData.references[3].data[1];
-
-                appData.references[3].columns[2].referenceLinkSource = appData.references[1];
-                appData.references[3].data[0].enemies = [ appData.references[1].data[0], appData.references[1].data[0] ];
-                appData.references[3].data[1].enemies = [ appData.references[1].data[0], appData.references[1].data[1] ];
             };
 
             var prepareVariables = function(variables) {
@@ -182,6 +183,7 @@ app.provider('appDataProvider', function() {
                 for (var i in rawReferences) {
                     if (!rawReferences.hasOwnProperty(i)) continue;
                     var rawReference = rawReferences[i];
+                    var rawColumn = null;
                     var reference = {};
                     reference.name = rawReference.name;
                     reference.translate = 'references.'+ reference.name +'.name';
@@ -189,7 +191,7 @@ app.provider('appDataProvider', function() {
                     reference.data = [];
                     for (var j in rawReference.columns) {
                         if (!rawReference.columns.hasOwnProperty(j)) continue;
-                        var rawColumn = rawReference.columns[j];
+                        rawColumn = rawReference.columns[j];
                         var column = {};
                         column.name = rawColumn.name;
                         column.order = rawColumn.order;
@@ -210,16 +212,19 @@ app.provider('appDataProvider', function() {
                             dataRow.order = rawReference.columns[0].data[l].order;
                             for (var m in rawReference.columns) {
                                 if (!rawReference.columns.hasOwnProperty(m)) continue;
-                                var rawColumn = rawReference.columns[m];
-                                var values = null;
+                                rawColumn = rawReference.columns[m];
+                                var values = {
+                                    id: rawColumn.data[l].id,
+                                    values: null
+                                };
                                 if (rawColumn.data[l].values.length === 1) {
-                                    values = rawColumn.data[l].values[0].value;
+                                    values.values = rawColumn.data[l].values[0].value;
                                 }
                                 else if (rawColumn.data[l].values.length > 1) {
-                                    values = [];
+                                    values.values = [];
                                     for (var n in rawColumn.data[l].values) {
                                         if (!rawColumn.data[l].values.hasOwnProperty(n)) continue;
-                                        values.push(rawColumn.data[l].values[n].value);
+                                        values.values.push(rawColumn.data[l].values[n].value);
                                     }
                                 }
                                 dataRow[rawColumn.name] = values;
