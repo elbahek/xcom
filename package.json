@@ -9,16 +9,16 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "body-parser": "^1.8.2",
-    "config": "^1.2.0",
+    "body-parser": "^1.9.0",
+    "config": "^1.2.1",
     "ejs": "^1.0.0",
-    "express": "^4.9.1",
+    "express": "^4.9.5",
     "lodash": "^2.4.1",
     "moment": "~2.8.2",
     "moment-timezone": "~0.2.1",
     "node-config": "0.0.2",
-    "sequelize": "^2.0.0-dev13",
-    "sqlite3": "^2.2.3"
+    "sequelize": "^2.0.0-rc1",
+    "sqlite3": "^2.2.7"
   },
   "devDependencies": {
     "gulp": "^3.8.0",
