@@ -23,9 +23,15 @@ module.exports = {
                 comment: 'json-formatted column options'
             }
         });
+        migration.addIndex(
+            'referenceColumn',
+            [ 'referenceId', 'order' ],
+            { indexName: 'UNIQUE_referenceColumn_ON_referenceId_AND_order', indicesType: 'UNIQUE' }
+        );
         done();
     },
     down: function(migration, DataTypes, done) {
+        migration.removeIndex('referenceColumn', 'UNIQUE_referenceColumn_ON_referenceId_AND_order');
         migration.dropTable('referenceColumn');
         done();
     }

@@ -1,6 +1,6 @@
 <div class="text-cell-wrapper">
-    <span editable-text="row[column.name].values"
-        onbeforesave="appData.saveReferenceItem({id: row[column.name].id, values: $data}, appData.currentReference.name, column.name)">
-        {{ row[column.name].values }}
+    <span editable-text="row.values[column.name][0].value"
+        onbeforesave="appData.saveReferenceItem({id: row.values[column.name][0].id, value: $data}, appData.currentReference.name, column.name)">
+        {{ row.values[column.name][0].value }}
     </span>
 </div>

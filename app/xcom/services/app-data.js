@@ -68,7 +68,7 @@ app.provider('appDataProvider', function() {
                 saveReferenceItem: function(data, referenceName, columnName) {
                     return backendRequest(
                         '/save-reference-item',
-                        { id: data.id, values: data.values, referenceName: referenceName, columnName: columnName },
+                        { id: data.id, value: data.value, referenceName: referenceName, columnName: columnName },
                         function(saveResponse) {
                             return saveResponse;
                         }
@@ -180,25 +180,31 @@ app.provider('appDataProvider', function() {
 
             var prepareReferences = function(rawReferences) {
                 var references = [];
+                var columnNames = [];
+                var reference = { name: null };
+                var previousRowId = null;
                 for (var i in rawReferences) {
-                    if (!rawReferences.hasOwnProperty(i)) continue;
-                    var rawReference = rawReferences[i];
-                    var rawColumn = null;
-                    var reference = {};
-                    reference.name = rawReference.name;
-                    reference.translate = 'references.'+ reference.name +'.name';
-                    reference.columns = [];
-                    reference.data = [];
-                    for (var j in rawReference.columns) {
-                        if (!rawReference.columns.hasOwnProperty(j)) continue;
-                        rawColumn = rawReference.columns[j];
-                        var column = {};
-                        column.name = rawColumn.name;
-                        column.order = rawColumn.order;
-                        if (rawColumn.options !== null && rawColumn.options !== undefined) {
-                            var options = JSON.parse(rawColumn.options);
+                    var row = rawReferences[i];
+                    if (reference.name !== row.referenceName) {
+                        if (reference.name !== null) {
+                            columnNames = [];
+                            references.push(reference);
+                        }
+                        reference = {
+                            name: row.referenceName,
+                            translate: 'references.'+ row.referenceName +'.name',
+                            columns: [],
+                            data: []
+                        };
+                    }
+
+                    if (columnNames.indexOf(row.columnName) === -1) {
+                        columnNames.push(row.columnName);
+                        var column = { name: row.columnName, order: row.columnOrder };
+                        if (row.columnOptions !== null && row.columnOptions !== undefined) {
+                            var options = JSON.parse(row.columnOptions);
                             for (var k in options) {
-                                if (options.hasOwnProperty(k)) continue;
+                                if (!options.hasOwnProperty(k)) continue;
                                 column[k] = options[k];
                             }
                         }
@@ -206,34 +212,21 @@ app.provider('appDataProvider', function() {
                         reference.columns.push(column);
                     }
 
-                    if (rawReference.columns[0].data.length > 0) {
-                        for (var l in rawReference.columns[0].data) {
-                            var dataRow = {};
-                            dataRow.order = rawReference.columns[0].data[l].order;
-                            for (var m in rawReference.columns) {
-                                if (!rawReference.columns.hasOwnProperty(m)) continue;
-                                rawColumn = rawReference.columns[m];
-                                var values = {
-                                    id: rawColumn.data[l].id,
-                                    values: null
-                                };
-                                if (rawColumn.data[l].values.length === 1) {
-                                    values.values = rawColumn.data[l].values[0].value;
-                                }
-                                else if (rawColumn.data[l].values.length > 1) {
-                                    values.values = [];
-                                    for (var n in rawColumn.data[l].values) {
-                                        if (!rawColumn.data[l].values.hasOwnProperty(n)) continue;
-                                        values.values.push(rawColumn.data[l].values[n].value);
-                                    }
-                                }
-                                dataRow[rawColumn.name] = values;
-                            }
-                            reference.data.push(dataRow);
-                        }
+                    if (reference.data.length > 0 && row.rowId === reference.data[reference.data.length - 1].id) {
+                        var dataRow = reference.data[reference.data.length - 1];
                     }
+                    else {
+                        var dataRow = { id: row.rowId, order: row.rowOrder, values: {} };
+                        reference.data.push(dataRow);
+                    }
+                    if (!dataRow.values.hasOwnProperty(row.columnName)) {
+                        dataRow.values[row.columnName] = [];
+                    }
+                    dataRow.values[row.columnName].push({ id: row.valueId, value: row.value });
 
-                    references.push(reference);
+                    if (i == rawReferences.length - 1) {
+                        references.push(reference); // push last one
+                    }
                 }
                 appData.references = references;
             };
